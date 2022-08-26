@@ -1,0 +1,26 @@
+version: "3.8"
+networks:
+  data_analytic:
+    external: true
+x-network-common: &network-common
+  networks:
+    - data_analytic
+  ports:
+    - "35433:5433"
+
+services:
+  da-vertica:
+    <<: *network-common
+    hostname: vertica
+    restart: always
+    image: vertica/vertica-ce:latest
+    environment:
+      TZ: Asia/Bangkok
+      APP_DB_USER: dbadmin
+      APP_DB_PASSWORD: admin@admin
+      VERTICA_DB_NAME: "VMart"
+      VMART_DIR: "/config"
+      VMART_ETL_SCRIPT: "etl_script.sh"
+    volumes:
+      - "./storage/vertica/data:/data"
+      - "./configs/vertica:/config/"

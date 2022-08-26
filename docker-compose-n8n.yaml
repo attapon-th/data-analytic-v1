@@ -1,0 +1,52 @@
+version: "3.7"
+
+x-network-common: &network-common
+  networks:
+    - data_analytic
+  # ports:
+  #   - 5678:5678
+
+networks:
+  data_analytic:
+    external: true
+
+services:
+  da-n8n:
+    <<: *network-common
+    hostname: n8n
+    image: n8nio/n8n
+    restart: always
+    environment:
+      - TZ=Asia/Bangkok
+      - GENERIC_TIMEZONE=Asia/Bangkok
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_BASIC_AUTH_USER=admin
+      - N8N_BASIC_AUTH_PASSWORD=admin@admin
+
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=https
+      - NODE_ENV=production
+
+      # -- Setting Hostname and path prefix
+      - N8N_HOST=localhost
+      - SUBFOLDER=n8n
+      - N8N_PATH=/n8n/
+      - WEBHOOK_URL=https://localhost/n8n/
+      - N8N_LOG_LEVEL=debug
+
+      # - N8N_EMAIL_MODE=smtp
+      # - N8N_SMTP_HOST=smtp
+      # - N8N_SMTP_PORT=smtp
+      # - N8N_SMTP_USER=smtp
+      # - N8N_SMTP_PASS=smtp
+      # - N8N_SMTP_SENDER=
+      # - N8N_SMTP_SSL=true
+
+    user: root
+    group_add:
+      - root
+    volumes:
+      - ./storage/n8n/.n8n:/home/node/.n8n
+      - ./storage/n8n/data:/data
+    # command: /bin/sh -c "sleep 5; n8n start --tunnel"
+    command: /bin/sh -c "sleep 5; n8n start"

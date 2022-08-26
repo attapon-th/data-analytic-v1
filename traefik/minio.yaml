@@ -1,0 +1,26 @@
+http:
+  routers:
+    minio:
+      rule: Host(`localhost`)
+      service: minio
+      entryPoints:
+        - minio
+    # tls: true
+
+    minio-console:
+      rule: Host(`localhost`) && PathPrefix(`/`)
+      service: minio-console
+      entryPoints:
+        - websecure
+      tls: true
+
+  services:
+    minio:
+      loadBalancer:
+        servers:
+          - url: "http://minio:9000"
+
+    minio-console:
+      loadBalancer:
+        servers:
+          - url: "http://minio:9001"

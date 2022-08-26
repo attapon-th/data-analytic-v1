@@ -35,9 +35,7 @@ logs(){
 }
 down(){
     vprint;
-    name=$1
-    echo "docker compose down  [$name]"
-    docker-compose  -p $NAME_PROJECT -f docker-compose-$name.yaml down
+    docker-compose  -p $NAME_PROJECT down da-$1
 }
 
 vprint(){

@@ -18,7 +18,7 @@ init(){
     fi
 }
 create_network(){
-    docker network create --attachable --driver=overlay
+    docker network create --attachable --driver=overlay $NETWORK_NAME
 }
 
 

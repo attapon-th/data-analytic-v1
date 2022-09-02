@@ -1,0 +1,19 @@
+version: "3.8"
+networks:
+  data_analytic:
+    external: true
+x-network-common: &network-common
+  networks:
+    - data_analytic
+
+services:
+  da-tljh:
+    <<: *network-common
+    image: attap0n/tljh-systemd:latest
+    hostname: tljh
+    privileged: true
+    restart: always
+    environment:
+      TZ: Asia/Bangkok
+    volumes:
+      - .configs/tljh/config.yaml:/opt/tljh/config/config.yaml

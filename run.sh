@@ -26,6 +26,9 @@ up(){
     name=$1
     echo "docker compose up -d  [$name]"
     docker-compose  -p $NAME_PROJECT -f docker-compose-$name.yaml up -d
+    if  [[ -n "$name" && $name = 'tljh' ]]; then
+        docker-compose  -p $NAME_PROJECT -f docker-compose-$name.yaml exec -it da-tljh bootstrap --admin admin:admin
+    fi
 }
 
 logs(){

@@ -1,0 +1,14 @@
+http:
+  routers:
+    tljh:
+      rule: Host(`localhost`) && PathPrefix(`/tljh`)
+      service: tljh
+      entryPoints:
+        - websecure
+      tls: true
+
+  services:
+    tljh:
+      loadBalancer:
+        servers:
+          - url: "http://tljh:80"

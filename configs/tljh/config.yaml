@@ -1,0 +1,12 @@
+base_url: /tljh
+limits:
+  memory: 4G
+  cpu: 2
+services:
+  cull:
+    enabled: true
+    every: 60 # ping 60s
+    timeout: 6000 # close idle 10hr
+    max_age: 0 # not shutdown server
+user_environment:
+  default_app: jupyterlab

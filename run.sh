@@ -27,6 +27,7 @@ up(){
     echo "docker compose up -d  [$name]"
     docker-compose  -p $NAME_PROJECT -f docker-compose-$name.yaml up -d
     if  [[ -n "$name" && $name = 'tljh' ]]; then
+        echo "Wait Initial setup. (~1-5 minute)"
         docker-compose  -p $NAME_PROJECT -f docker-compose-$name.yaml exec -it da-tljh bash -c \
         "curl -L https://tljh.jupyter.org/bootstrap.py \
         | sudo python3 - --show-progress-page --admin admin:admin@admin"

@@ -1,5 +1,7 @@
 version: "3.7"
 
+# refereance: https://github.com/minio/minio/blob/master/docs/orchestration/docker-compose/docker-compose.yaml
+
 networks:
   data_analytic:
     external: true
@@ -16,16 +18,16 @@ x-network-common: &network-common
 
 # Settings and configurations that are common for all containers
 x-minio-common: &minio-common
-  image: quay.io/minio/minio:latest
-  command: server --console-address ":9001" http://minio1/data{1...2} #
+  image: quay.io/minio/minio:RELEASE.2022-09-07T22-25-02Z
+  command: server --console-address ":9001" /data{1...2} #
   # command: server --console-address ":9001" http://minio{1...2}/data{1...2} #
   restart: always
   environment:
     TZ: Asia/Bangkok
     MINIO_ROOT_USER: admin
     MINIO_ROOT_PASSWORD: admin@admin
-    MINIO_BROWSER_REDIRECT_URL: https://localhost:30443
-    MINIO_SERVER_URL: http://localhost:39000
+    MINIO_BROWSER_REDIRECT_URL: https://localhost:30443 # config in ./traefik/minio.yaml
+    MINIO_SERVER_URL: http://localhost:39000 # config in ./traefik/minio.yaml
     MINIO_WORM: 0
   expose:
     - "9000"
@@ -81,7 +83,7 @@ services:
 
     depends_on:
       - da-minio1
-      # - minio2
+      # - da-minio2
       # - minio3
       # - minio4
     <<: *network-common
